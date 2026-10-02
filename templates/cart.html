@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Your cart | FoOd Chain®{% endblock %}
+{% block content %}<p class="eyebrow">YOUR SELECTION</p><h1>Your cart</h1>
+{% if items %}<div class="checkout-layout"><section class="panel">
+{% for item in items %}<div class="cart-row"><div><h3>{{ item.food.name }}</h3><p>Rs. {{ item.food.price }} each</p></div><form class="quantity-form" method="post" action="{% url 'update_cart' item.food.id %}">{% csrf_token %}<input type="number" name="quantity" min="0" max="99" value="{{ item.quantity }}"><button class="small-button">Update</button></form><strong>Rs. {{ item.line_total }}</strong><form method="post" action="{% url 'remove_from_cart' item.food.id %}">{% csrf_token %}<button class="remove">Remove</button></form></div>{% endfor %}
+</section><aside class="panel summary"><h2>Summary</h2><p><span>Subtotal</span><strong>Rs. {{ subtotal }}</strong></p><p><span>Delivery</span><strong>Rs. {{ delivery_fee }}</strong></p><hr><p class="grand"><span>Total</span><strong>Rs. {{ total }}</strong></p><a class="button full" href="{% url 'checkout' %}">Proceed to checkout</a></aside></div>
+{% else %}<div class="empty"><span>🛒</span><h2>Your cart is empty</h2><p>Add something delicious from the menu.</p><a class="button" href="{% url 'menu' %}">Browse menu</a></div>{% endif %}{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Menu | FoOd Chain®{% endblock %}
+{% block content %}
+<section class="hero"><div><p class="eyebrow">GOOD FOOD. SIMPLE ORDERING.</p><h1>Your cravings,<br><span>delivered.</span></h1><p>Pick your favorites and checkout in a few clicks.</p><a class="button" href="#menu">Explore menu</a></div><div class="hero-art">🍔<span>🍕</span><small>Fresh picks<br>for your day</small></div></section>
+<section id="menu">
+  <div class="section-heading"><div><p class="eyebrow">OUR MENU</p><h2>Find your favorite</h2></div>
+  <form method="get"><select name="category" onchange="this.form.submit()"><option value="">All categories</option>{% for value,label in categories %}<option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></form></div>
+  <div class="food-grid">
+  {% for food in foods %}
+    <article class="food-card">
+      <div class="food-picture">{% if food.image_url %}<img src="{{ food.image_url }}" alt="{{ food.name }}">{% else %}<span>{% if food.category == "Pizza" %}🍕{% elif food.category == "Drinks" %}🥤{% elif food.category == "Desserts" %}🍰{% elif food.category == "Sides" %}🍟{% else %}🍔{% endif %}</span>{% endif %}</div>
+      <div class="food-info"><span class="category">{{ food.category }}</span><h3>{{ food.name }}</h3><p>{{ food.description }}</p><div class="food-bottom"><strong>Rs. {{ food.price }}</strong><form method="post" action="{% url 'add_to_cart' food.id %}">{% csrf_token %}<input type="hidden" name="next" value="menu"><button class="add-button">+ Add</button></form></div></div>
+    </article>
+  {% empty %}<p>No food items found. Add items through the Django admin.</p>{% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block title %}Login | FoOd Chain®{% endblock %}
+{% block content %}<section class="form-card"><p class="eyebrow">WELCOME BACK</p><h1>Login</h1><p>Sign in to continue your order.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button full">Login</button></form><p>New here? <a href="{% url 'register' %}">Create an account</a></p></section>{% endblock %}
